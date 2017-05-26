@@ -6,7 +6,7 @@ from utils import *
 Class responsible for storing all data structures related to an experiment
 '''
 class ExpHandler():
-    def __init__(self, params_dict, dum_freq=100, test=False):
+    def __init__(self, params_dict, dum_freq=500, test=False):
         self.params = params_dict
         self.params['date'] = datetime.datetime.now()
         self.epoch = 0
@@ -39,10 +39,9 @@ class ExpHandler():
         else : 
             raise Exception('unsupported image preprocessing')
         if real_img : 
-            saveImage(samples, self.exp_name + '/images' + '/real_' + str(self.epoch))
+            saveImage(samples, self.exp_name + '/images/' + '/real_' + str(self.epoch), side=int(np.sqrt(self.params['batch_size'])))
         else : 
-            saveImage(samples, self.exp_name + '/images' + '/' + extra + 'samples_' + str(self.epoch))
-
+            saveImage(samples, self.exp_name + '/images/' + str(self.epoch), side=int(np.sqrt(self.params['batch_size'])))
     def add_model(self, name, layers, monitored_values):
         aModel = Model(name, layers, monitored_values, self.exp_name)
         self.monitored_models[aModel.name] = aModel

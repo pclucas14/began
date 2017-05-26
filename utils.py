@@ -14,10 +14,10 @@ path = '/NOBACKUP/dash_cam_dataset/'
 def load_dataset_dummy():
     return np.ones((1000, 3, 64, 64))
 
-def load_dataset(ds_split=(0.95,0.05,0.), shuffle=False, sample=False, resize=False, normalize=False, extra=False, easy=True):
+def load_dataset(sample=False, easy=True):
     print("Loading dataset")
     home = '/home/ml/lpagec/'
-    name = 'data.bin' if normalize else 'data_og.bin'
+    name = 'data_og.bin'
     try :
         f = file(home + name,"rb")
         trainz = np.load(f)
@@ -52,8 +52,6 @@ def load_dataset(ds_split=(0.95,0.05,0.), shuffle=False, sample=False, resize=Fa
         Z = np.transpose(Z, axes=[0,3,1,2]).astype('float32')
         
         amt = Z.shape[0]
-        idx1 = int(ds_split[0]*amt)
-        idx2 = int((ds_split[0] + ds_split[1])*amt)
         
         f = file(home + name ,"wb")
         np.save(f,Z)
@@ -63,7 +61,6 @@ def load_dataset(ds_split=(0.95,0.05,0.), shuffle=False, sample=False, resize=Fa
 
 
 def saveImage(imageData, path, side=8):
-
     # format data appropriately
     imageData = imageData.transpose(0,2,3,1).astype('uint8')
 
